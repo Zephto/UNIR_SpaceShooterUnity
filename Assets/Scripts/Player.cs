@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
+using System.Linq;
 
 public class Player : MonoBehaviour {
 	#region Public variables
@@ -7,7 +10,7 @@ public class Player : MonoBehaviour {
 	[SerializeField] private float ratioShoot;
 
 	[SerializeField] private GameObject spawnPoint;
-	[SerializeField] private GameObject poolShots;
+	[SerializeField] private GameObject poolContainer;
 	#endregion
 
 	#region Private variables
@@ -16,6 +19,8 @@ public class Player : MonoBehaviour {
     #endregion
 
     void Start() {
+		poolContainer.transform.SetParent(null);
+
         PrepareShots();
     }
 
@@ -28,7 +33,8 @@ public class Player : MonoBehaviour {
 	#region Private Methods
 	private void PrepareShots(){
 		for(int i=0; i<50; i++){
-			Instantiate(shotPrefab, spawnPoint.transform.position, Quaternion.identity);
+			GameObject newShot = Instantiate(shotPrefab, spawnPoint.transform.position, Quaternion.identity, poolContainer.transform);
+			newShot.gameObject.SetActive(false);
 		}
 	}
 
@@ -48,8 +54,19 @@ public class Player : MonoBehaviour {
 		ratioTimer += 1 * Time.deltaTime;
 
 		if(Input.GetKey(KeyCode.Space) && ratioTimer > ratioShoot ){
-			Instantiate(shotPrefab, spawnPoint.transform.position, Quaternion.identity);
-			ratioTimer = 0;
+			
+			foreach(Transform child in poolContainer.transform){
+				if(!child.gameObject.activeSelf){
+					GameObject selectedShot = child.gameObject;
+					selectedShot.transform.position = spawnPoint.transform.position;
+					selectedShot.SetActive(true);
+					ratioTimer = 0;
+					break;
+				}
+			}
+
+			//Pendiente de agregar disparos cuando se acaben
+			Debug.Log("No hay disparos disponibles.");
 		}
 	}
     #endregion
