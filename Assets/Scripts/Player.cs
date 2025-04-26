@@ -75,10 +75,12 @@ public class Player : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D collision) {
 		if(collision.CompareTag("EnemyShoot") || collision.CompareTag("Enemy")){
 			life -=20;
-			Destroy(collision.gameObject);
+			//Destroy(collision.gameObject);
+			collision.gameObject.SetActive(false);
 
 			if(life <= 0){
-				Destroy(this.gameObject);
+				this.gameObject.SetActive(false);
+				// Destroy(this.gameObject);
 			}
 		}
     }

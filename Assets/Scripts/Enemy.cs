@@ -9,19 +9,30 @@ public class Enemy : MonoBehaviour {
 	[SerializeField] private GameObject spawnPoint;
     #endregion
 
+	#region Private variables
+	private bool canShoot = false;
+	#endregion	
+
     void Start() {
-		StartCoroutine(SpawnShoots());
+		if(canShoot) StartCoroutine(SpawnShoots());
     }
 
     void Update() {
 		this.transform.Translate(new Vector3(-1, 0, 0) * velocity * Time.deltaTime);
 	}
 
+	#region Public Methods
+	public void CanShot(bool set) => canShoot = set;
+	#endregion
+
 	#region Trigger Methods
 	void OnTriggerEnter2D(Collider2D collision) {
 		if(collision.CompareTag("PlayerShoot")){
-			Destroy(collision.gameObject);
-			Destroy(this.gameObject);
+			collision.gameObject.SetActive(false);
+			this.gameObject.SetActive(false);
+
+			// Destroy(collision.gameObject);
+			// Destroy(this.gameObject);
 		}
     }
 	#endregion
