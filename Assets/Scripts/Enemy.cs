@@ -17,10 +17,21 @@ public class Enemy : MonoBehaviour {
 		this.transform.Translate(new Vector3(-1, 0, 0) * velocity * Time.deltaTime);
 	}
 
+	#region Trigger Methods
+	void OnTriggerEnter2D(Collider2D collision) {
+		if(collision.CompareTag("PlayerShoot")){
+			Destroy(collision.gameObject);
+			Destroy(this.gameObject);
+		}
+    }
+	#endregion
+
+	#region Coroutines
 	private IEnumerator SpawnShoots(){
 		while (true) {
 			Instantiate(shootPrefab, spawnPoint.transform.position, Quaternion.identity);
 			yield return new WaitForSeconds(1f);
 		}
 	}
+	#endregion
 }

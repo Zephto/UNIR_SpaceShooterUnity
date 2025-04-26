@@ -21,7 +21,9 @@ public class Spawner : MonoBehaviour {
 				wavesText.text = "";
 
 				for(int k=0; k<10; k++){//Enemigos
-					Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+
+					Vector3 randomPosition = new Vector3(this.transform.position.x, Random.Range(-4.5f,4.5f), 0);
+					Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
 					yield return new WaitForSeconds(0.5f);
 				}
 

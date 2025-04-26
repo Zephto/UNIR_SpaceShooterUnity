@@ -8,10 +8,12 @@ public class Player : MonoBehaviour {
 
 	[SerializeField] private GameObject spawnPoint1;
 	[SerializeField] private GameObject spawnPoint2;
+	[SerializeField] private GameObject poolShoots;
 	#endregion
 
 	#region Private variables
 	private float ratioTimer = 0.5f;
+	private float life = 100;
 	#endregion
 
     void Update() {
@@ -42,5 +44,19 @@ public class Player : MonoBehaviour {
 			ratioTimer = 0;
 		}
 	}
-	#endregion
+    #endregion
+
+    #region Trigger Methods
+    void OnTriggerEnter2D(Collider2D collision) {
+		if(collision.CompareTag("EnemyShoot") || collision.CompareTag("Enemy")){
+			life -=20;
+			Destroy(collision.gameObject);
+
+			if(life <= 0){
+				Destroy(this.gameObject);
+			}
+		}
+    }
+
+    #endregion
 }
