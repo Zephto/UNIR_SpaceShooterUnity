@@ -3,26 +3,35 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 	#region Public variables
 	[SerializeField] private float velocity;
-	[SerializeField] private GameObject shootPrefab;
+	[SerializeField] private GameObject shotPrefab;
 	[SerializeField] private float ratioShoot;
 
-	[SerializeField] private GameObject spawnPoint1;
-	[SerializeField] private GameObject spawnPoint2;
-	[SerializeField] private GameObject poolShoots;
+	[SerializeField] private GameObject spawnPoint;
+	[SerializeField] private GameObject poolShots;
 	#endregion
 
 	#region Private variables
 	private float ratioTimer = 0.5f;
 	private float life = 100;
-	#endregion
+    #endregion
+
+    void Start() {
+        PrepareShots();
+    }
 
     void Update() {
 		Movement();
 		MovementLimits();
-		Shoot();
+		Shot();
     }
 
 	#region Private Methods
+	private void PrepareShots(){
+		for(int i=0; i<50; i++){
+			Instantiate(shotPrefab, spawnPoint.transform.position, Quaternion.identity);
+		}
+	}
+
 	private void Movement(){
 		float inputH = Input.GetAxisRaw("Horizontal");
 		float inputV = Input.GetAxisRaw("Vertical");
@@ -35,12 +44,11 @@ public class Player : MonoBehaviour {
 		transform.position = new Vector3(xClamped, yClamped, 0);
 	}
 
-	private void Shoot(){
+	private void Shot(){
 		ratioTimer += 1 * Time.deltaTime;
 
 		if(Input.GetKey(KeyCode.Space) && ratioTimer > ratioShoot ){
-			Instantiate(shootPrefab, spawnPoint1.transform.position, Quaternion.identity);
-			Instantiate(shootPrefab, spawnPoint2.transform.position, Quaternion.identity);
+			Instantiate(shotPrefab, spawnPoint.transform.position, Quaternion.identity);
 			ratioTimer = 0;
 		}
 	}
