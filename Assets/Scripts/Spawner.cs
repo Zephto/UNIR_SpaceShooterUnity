@@ -5,8 +5,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour {
 	#region Public references
 	[SerializeField] private GameObject enemyPrefab;
-	[SerializeField] private TextMeshProUGUI wavesText
-;
+	[SerializeField] private TextMeshProUGUI wavesText;
     #endregion
 
     void Start() {
@@ -15,9 +14,11 @@ public class Spawner : MonoBehaviour {
 
 	private IEnumerator SpawnEnemy(){
 		
-		for(int i=0; i<3; i++){ //Niveles
-			
+		for(int i=0; i<5; i++){ //Niveles
 			for(int j=0; j<3; j++){//Oleadas
+				wavesText.text = "Nivel " + (i+1) + " - Oleada " + (j+1);
+				yield return new WaitForSeconds(2f);
+				wavesText.text = "";
 
 				for(int k=0; k<10; k++){//Enemigos
 					Instantiate(enemyPrefab, transform.position, Quaternion.identity);

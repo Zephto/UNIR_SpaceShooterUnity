@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour {
 	}
 
 	private IEnumerator SpawnShoots(){
-		for(int i = 0; i<5; i++){
+		while (true) {
 			Instantiate(shootPrefab, spawnPoint.transform.position, Quaternion.identity);
 			yield return new WaitForSeconds(1f);
 		}
