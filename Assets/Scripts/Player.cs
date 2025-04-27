@@ -101,16 +101,19 @@ public class Player : MonoBehaviour {
 
 			switch(Random.value){
 				case float r when r < 0.5f:
+					GlobalData.Score += 500;
 					Debug.Log("Doble disparo");
 					if(!isDoubleRatioActive) StartCoroutine(DoubleShot());
 				break;
 
 				case float r when r >= 0.5f && r<0.8:
+					GlobalData.Score += 800;
 					Debug.Log("Invencible");
 					if(!isInvencibleActive) StartCoroutine(Invencible());
 				break;
 
 				case float r when r >=0.8f && r<=1:
+					GlobalData.Score += 1000;
 					Debug.Log("Vida Extra");
 					life++;
 					if(life >= 4) life = 4;

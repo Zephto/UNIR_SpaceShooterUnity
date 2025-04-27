@@ -46,8 +46,9 @@ public class Enemy : MonoBehaviour {
 		if(collision.CompareTag("PlayerShoot")){
 			collision.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);
+			GlobalData.Score += 100;
 
-			if(Random.value > 0.1f){
+			if(Random.value > 0.5f){
 				Instantiate(itemPrefab, spawnPoint.transform.position, Quaternion.identity);
 			}
 		}

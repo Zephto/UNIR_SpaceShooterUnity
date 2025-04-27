@@ -22,6 +22,15 @@ public class GlobalData : MonoBehaviour {
 	#region Player Events
 	public static UnityEvent<int> OnPlayerHits = new UnityEvent<int>();
 	public static UnityEvent OnGameOver = new UnityEvent();
+	public static UnityEvent OnScoreUpdate = new UnityEvent();
+	private static int _score = 0;
+	public static int Score{
+		get => _score;
+		set {
+			OnScoreUpdate?.Invoke();
+			_score = value;
+		}
+	}
 	#endregion
 
 	#region Enemy Events

@@ -12,6 +12,7 @@ public class Spawner : MonoBehaviour {
 	#region Private references
 	private List<Enemy> listOfEnemies = new List<Enemy>();
 	private IEnumerator spawnCoroutine;
+	private int currentEnemies = 10;
 	#endregion
 
     void Start() {
@@ -36,42 +37,41 @@ public class Spawner : MonoBehaviour {
 	private IEnumerator SpawnEnemy(){
 		while(true){
 
-			for(int j=0; j<3; j++){//Oleadas
-				// wavesText.text = "Nivel " + (i+1) + " - Oleada " + (j+1);
-				GlobalData.OnNewWave?.Invoke();
-				yield return new WaitForSeconds(2f);
-				// wavesText.text = "";
+			// wavesText.text = "Nivel " + (i+1) + " - Oleada " + (j+1);
+			GlobalData.OnNewWave?.Invoke();
+			yield return new WaitForSeconds(2f);
+			// wavesText.text = "";
 
-				for(int k=0; k<10; k++){//Enemigos
+			for(int k=0; k<currentEnemies; k++){//Enemigos
 
-					Vector3 randomPosition = new Vector3(this.transform.position.x, Random.Range(-4.5f,4.5f), 0);
-					//Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
-					
-					//Get random enemy
-					Enemy selectedEnemy = listOfEnemies.FirstOrDefault(x => !x.gameObject.activeSelf);
-					if(selectedEnemy == null) break;
-					
-					selectedEnemy.CanShot(Random.value > 0.5);
-					selectedEnemy.transform.position = randomPosition;
-					selectedEnemy.gameObject.SetActive(true);
-					
-					yield return new WaitForSeconds(0.5f);
-				}
-
-				yield return new WaitForSeconds(2f);
-				foreach(var enemy in listOfEnemies){
-					enemy.gameObject.SetActive(false);
-				}
-			}
-
-			//Activar boss battle
-			GlobalData.OnBossStage?.Invoke();
-			while(GlobalData.isBossBattle){
-				yield return null;
+				Vector3 randomPosition = new Vector3(this.transform.position.x, Random.Range(-4.5f,4.5f), 0);
+				//Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
+				
+				//Get random enemy
+				Enemy selectedEnemy = listOfEnemies.FirstOrDefault(x => !x.gameObject.activeSelf);
+				if(selectedEnemy == null) break;
+				
+				selectedEnemy.CanShot(Random.value > 0.5);
+				selectedEnemy.transform.position = randomPosition;
+				selectedEnemy.gameObject.SetActive(true);
+				
+				yield return new WaitForSeconds(0.5f);
 			}
 
 			yield return new WaitForSeconds(2f);
-			GlobalData.GameSpeed += 0.1f;
+			foreach(var enemy in listOfEnemies){
+				enemy.gameObject.SetActive(false);
+			}
+
+			//Activar boss battle
+			// GlobalData.OnBossStage?.Invoke();
+			// while(GlobalData.isBossBattle){
+			// 	yield return null;
+			// }
+
+			yield return new WaitForSeconds(2f);
+			GlobalData.GameSpeed += 0.05f;
+			currentEnemies++;
 		}
 	}
 	#endregion
