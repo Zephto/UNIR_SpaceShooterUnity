@@ -30,9 +30,6 @@ public class Enemy : MonoBehaviour {
 		if(collision.CompareTag("PlayerShoot")){
 			collision.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);
-
-			// Destroy(collision.gameObject);
-			// Destroy(this.gameObject);
 		}
     }
 	#endregion

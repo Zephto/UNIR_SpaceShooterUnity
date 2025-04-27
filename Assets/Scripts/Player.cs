@@ -15,7 +15,7 @@ public class Player : MonoBehaviour {
 
 	#region Private variables
 	private float ratioTimer = 0.5f;
-	private float life = 100;
+	private int life = 4;
     #endregion
 
     void Start() {
@@ -74,9 +74,10 @@ public class Player : MonoBehaviour {
     #region Trigger Methods
     void OnTriggerEnter2D(Collider2D collision) {
 		if(collision.CompareTag("EnemyShoot") || collision.CompareTag("Enemy")){
-			life -=20;
+			life -= 1;
 			//Destroy(collision.gameObject);
 			collision.gameObject.SetActive(false);
+			GlobalData.OnPlayerHits?.Invoke(life);
 
 			if(life <= 0){
 				this.gameObject.SetActive(false);

@@ -7,7 +7,6 @@ using System.Linq;
 public class Spawner : MonoBehaviour {
 	#region Public references
 	[SerializeField] private GameObject enemyPrefab;
-	[SerializeField] private TextMeshProUGUI wavesText;
     #endregion
 
 	#region Private references
@@ -31,12 +30,13 @@ public class Spawner : MonoBehaviour {
 
 	#region Coroutines
 	private IEnumerator SpawnEnemy(){
-		
-		for(int i=0; i<5; i++){ //Niveles
+		while(true){
+
 			for(int j=0; j<3; j++){//Oleadas
-				wavesText.text = "Nivel " + (i+1) + " - Oleada " + (j+1);
+				// wavesText.text = "Nivel " + (i+1) + " - Oleada " + (j+1);
+				GlobalData.OnNewWave?.Invoke();
 				yield return new WaitForSeconds(2f);
-				wavesText.text = "";
+				// wavesText.text = "";
 
 				for(int k=0; k<10; k++){//Enemigos
 
@@ -60,7 +60,14 @@ public class Spawner : MonoBehaviour {
 				}
 			}
 
-			yield return new WaitForSeconds(3f);
+
+			//Activar boss battle
+			GlobalData.OnBossStage?.Invoke();
+			while(GlobalData.isBossBattle){
+				yield return null;
+			}
+
+			yield return new WaitForSeconds(2f);
 		}
 	}
 	#endregion
