@@ -63,7 +63,7 @@ public class Player : MonoBehaviour {
 	private void Shot(){
 		ratioTimer += 1 * Time.deltaTime;
 
-		if(Input.GetKey(KeyCode.Space) && ratioTimer > ratioShoot ){
+		if((Input.GetKey(KeyCode.Space) || Input.GetButton("Fire1") ) && ratioTimer > ratioShoot ){
 			
 			foreach(Transform child in poolContainer.transform){
 				if(!child.gameObject.activeSelf){

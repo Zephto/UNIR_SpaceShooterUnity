@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TMPro;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class HUD : MonoBehaviour {
@@ -59,7 +58,7 @@ public class HUD : MonoBehaviour {
 
     void Update() {
 		if(isGameOver){
-			if(Input.GetKeyDown(KeyCode.Space)){
+			if(Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Fire1")){
 				transitionScreen.In(()=>{
 					GlobalData.ResetVariables();
 					sceneChanger.LoadSceneAsync("MainGame");
