@@ -55,7 +55,7 @@ public class Spawner : MonoBehaviour {
 				selectedEnemy.transform.position = randomPosition;
 				selectedEnemy.gameObject.SetActive(true);
 				
-				yield return new WaitForSeconds(0.5f);
+				yield return new WaitForSeconds(0.5f + Random.Range(0f, 2f));
 			}
 
 			yield return new WaitForSeconds(2f);

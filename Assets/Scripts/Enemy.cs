@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour {
 	[SerializeField] private GameObject spawnPoint;
 	[SerializeField] private GameObject itemPrefab;
 	[SerializeField] private GameObject poolContainer;
+	[SerializeField] private ParticleSystem explosion;
     #endregion
 
 	#region Private variables
@@ -38,6 +39,8 @@ public class Enemy : MonoBehaviour {
 			StopCoroutine(shotCoroutine);
 			shotCoroutine = null;
 		}
+
+		Instantiate(explosion, this.transform.position, Quaternion.identity, null);
     }
 
     void Update() {
@@ -64,6 +67,7 @@ public class Enemy : MonoBehaviour {
 			collision.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);
 			GlobalData.Score += 100;
+			// Instantiate(explosion, this.transform.position, Quaternion.identity, null);
 
 			if(Random.value > 0.5f){
 				Instantiate(itemPrefab, spawnPoint.transform.position, Quaternion.identity);

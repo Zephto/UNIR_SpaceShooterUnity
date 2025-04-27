@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
 	[SerializeField] private GameObject shotPrefab;
 	[SerializeField] private float ratioShoot;
 	[SerializeField] private SpriteRenderer playerVisual;
+	[SerializeField] private ParticleSystem explosion;
 
 	[SerializeField] private GameObject spawnPoint;
 	[SerializeField] private GameObject poolContainer;
@@ -91,6 +92,7 @@ public class Player : MonoBehaviour {
 			GlobalData.OnPlayerHits?.Invoke(life);
 
 			if(life <= 0){
+				Instantiate(explosion, this.transform.position, Quaternion.identity, null);
 				GlobalData.OnGameOver?.Invoke();
 				this.gameObject.SetActive(false);
 				// Destroy(this.gameObject);
@@ -146,7 +148,7 @@ public class Player : MonoBehaviour {
 		playerVisual.color = new Color(
 			playerVisual.color.r,
 			playerVisual.color.g,
-			playerVisual.color.b, 0.3f);
+			playerVisual.color.b, 0.01f);
 		yield return new WaitForSeconds(5f);
 
 		playerVisual.color = new Color(
