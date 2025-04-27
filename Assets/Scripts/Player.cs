@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using System.Linq;
+using System.Collections;
 
 public class Player : MonoBehaviour {
 	#region Public variables
@@ -16,7 +17,14 @@ public class Player : MonoBehaviour {
 	#region Private variables
 	private float ratioTimer = 0.5f;
 	private int life = 4;
+	private bool isDoubleRatioActive = false;
+	private bool isInvencibleActive = false;
+	private BoxCollider2D thisBoxCollider;
     #endregion
+
+    void Awake() {
+		thisBoxCollider = this.GetComponent<BoxCollider2D>();
+    }
 
     void Start() {
 		poolContainer.transform.SetParent(null);
@@ -41,7 +49,7 @@ public class Player : MonoBehaviour {
 	private void Movement(){
 		float inputH = Input.GetAxisRaw("Horizontal");
 		float inputV = Input.GetAxisRaw("Vertical");
-		transform.Translate(new Vector2(inputH, inputV).normalized * velocity * Time.deltaTime);
+		transform.Translate(new Vector2(inputH, inputV).normalized * (velocity * GlobalData.GameSpeed) * Time.deltaTime);
 	}
 
 	private void MovementLimits(){
@@ -74,17 +82,66 @@ public class Player : MonoBehaviour {
     #region Trigger Methods
     void OnTriggerEnter2D(Collider2D collision) {
 		if(collision.CompareTag("EnemyShoot") || collision.CompareTag("Enemy")){
+			if(isInvencibleActive) return;
+			
 			life -= 1;
 			//Destroy(collision.gameObject);
 			collision.gameObject.SetActive(false);
 			GlobalData.OnPlayerHits?.Invoke(life);
 
 			if(life <= 0){
+				GlobalData.OnGameOver?.Invoke();
 				this.gameObject.SetActive(false);
 				// Destroy(this.gameObject);
 			}
 		}
-    }
 
+		if(collision.CompareTag("Item")){
+			Destroy(collision.gameObject);
+
+			switch(Random.value){
+				case float r when r < 0.5f:
+					Debug.Log("Doble disparo");
+					if(!isDoubleRatioActive) StartCoroutine(DoubleShot());
+				break;
+
+				case float r when r >= 0.5f && r<0.8:
+					Debug.Log("Invencible");
+					if(!isInvencibleActive) StartCoroutine(Invencible());
+				break;
+
+				case float r when r >=0.8f && r<=1:
+					Debug.Log("Vida Extra");
+					life++;
+					if(life >= 4) life = 4;
+					GlobalData.OnPlayerHits?.Invoke(life);
+				break;
+
+				default:
+				break;
+			}
+		}
+    }
     #endregion
+
+	#region Coroutines
+	private IEnumerator DoubleShot() {
+		isDoubleRatioActive = true;
+		float previousRatio = ratioShoot;
+
+		ratioShoot /= 3;
+		yield return new WaitForSeconds(5f);
+
+		ratioShoot = previousRatio;
+		isDoubleRatioActive = false;
+	}
+
+	private IEnumerator Invencible() {
+		isInvencibleActive = true;
+		
+		yield return new WaitForSeconds(5f);
+
+		isInvencibleActive = false;
+	}
+	#endregion
 }

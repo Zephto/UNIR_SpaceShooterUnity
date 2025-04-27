@@ -79,9 +79,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b9957785eec6a54f8d1b5c06058dd2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 10
+  velocity: 9
   shootPrefab: {fileID: 4240174400010202350, guid: 45010b9189c20c543bd1ea9ceb3babf7, type: 3}
   spawnPoint: {fileID: 170065270979461569}
+  itemPrefab: {fileID: 7632973888346627072, guid: c67ce8383efe1064a85665eee70c591f, type: 3}
 --- !u!61 &4737767603450068009
 BoxCollider2D:
   m_ObjectHideFlags: 0

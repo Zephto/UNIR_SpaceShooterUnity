@@ -11,11 +11,15 @@ public class Spawner : MonoBehaviour {
 
 	#region Private references
 	private List<Enemy> listOfEnemies = new List<Enemy>();
+	private IEnumerator spawnCoroutine;
 	#endregion
 
     void Start() {
 		PrepareEnemies();
-        StartCoroutine(SpawnEnemy());
+		spawnCoroutine = SpawnEnemy();
+        StartCoroutine(spawnCoroutine);
+
+		GlobalData.OnGameOver.AddListener(() => StopCoroutine(spawnCoroutine));
     }
 
 	#region Private Methods
@@ -60,7 +64,6 @@ public class Spawner : MonoBehaviour {
 				}
 			}
 
-
 			//Activar boss battle
 			GlobalData.OnBossStage?.Invoke();
 			while(GlobalData.isBossBattle){
@@ -68,6 +71,7 @@ public class Spawner : MonoBehaviour {
 			}
 
 			yield return new WaitForSeconds(2f);
+			GlobalData.GameSpeed += 0.1f;
 		}
 	}
 	#endregion

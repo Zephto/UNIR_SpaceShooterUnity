@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b02c9746cbe80ec4da624f799b438fa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 5
+  velocity: 8
   shotPrefab: {fileID: 8629028845068148302, guid: 1e13786c121f008419ce680552e6f4a2, type: 3}
   ratioShoot: 0.5
   spawnPoint: {fileID: 375058953112329930}

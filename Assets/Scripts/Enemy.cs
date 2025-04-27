@@ -7,18 +7,34 @@ public class Enemy : MonoBehaviour {
 	[SerializeField] private float velocity;
 	[SerializeField] private GameObject shootPrefab;
 	[SerializeField] private GameObject spawnPoint;
+	[SerializeField] private GameObject itemPrefab;
     #endregion
 
 	#region Private variables
 	private bool canShoot = false;
+	private IEnumerator shotCoroutine;
 	#endregion	
 
     void Start() {
-		if(canShoot) StartCoroutine(SpawnShoots());
+		shotCoroutine = null;
+    }
+
+    void OnEnable() {
+		if(canShoot){
+			if(shotCoroutine == null) shotCoroutine = SpawnShoots();
+			StartCoroutine(shotCoroutine);
+		}
+    }
+
+    void OnDisable() {
+        if(shotCoroutine != null){
+			StopCoroutine(shotCoroutine);
+			shotCoroutine = null;
+		}
     }
 
     void Update() {
-		this.transform.Translate(new Vector3(-1, 0, 0) * velocity * Time.deltaTime);
+		this.transform.Translate(new Vector3(-1, 0, 0) * (velocity * GlobalData.GameSpeed) * Time.deltaTime);
 	}
 
 	#region Public Methods
@@ -30,6 +46,10 @@ public class Enemy : MonoBehaviour {
 		if(collision.CompareTag("PlayerShoot")){
 			collision.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);
+
+			if(Random.value > 0.1f){
+				Instantiate(itemPrefab, spawnPoint.transform.position, Quaternion.identity);
+			}
 		}
     }
 	#endregion
