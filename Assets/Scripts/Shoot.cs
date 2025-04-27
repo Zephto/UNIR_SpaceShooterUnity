@@ -17,7 +17,7 @@ public class Shoot : MonoBehaviour {
     }
 
     void Update() {
-        this.transform.Translate(direction * velocity * Time.deltaTime);
+        this.transform.Translate(direction * (velocity*GlobalData.GameSpeed) * Time.deltaTime);
     }
 
 	private IEnumerator LifeTimeCoroutine(){

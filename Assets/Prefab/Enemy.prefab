@@ -65,6 +65,7 @@ Transform:
   m_Children:
   - {fileID: 4820578266994643183}
   - {fileID: 8507218973204173514}
+  - {fileID: 7801970585328770168}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7988155410468574346
@@ -80,9 +81,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 9
-  shootPrefab: {fileID: 4240174400010202350, guid: 45010b9189c20c543bd1ea9ceb3babf7, type: 3}
+  shotPrefab: {fileID: 4240174400010202350, guid: 45010b9189c20c543bd1ea9ceb3babf7, type: 3}
   spawnPoint: {fileID: 170065270979461569}
   itemPrefab: {fileID: 7632973888346627072, guid: c67ce8383efe1064a85665eee70c591f, type: 3}
+  poolContainer: {fileID: 660497194568033664}
 --- !u!61 &4737767603450068009
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -156,6 +158,37 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &660497194568033664
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7801970585328770168}
+  m_Layer: 0
+  m_Name: EnemyPoolContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7801970585328770168
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660497194568033664}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 901387817449169615}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7007846237105633523
 GameObject:
   m_ObjectHideFlags: 0

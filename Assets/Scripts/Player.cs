@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
 	[SerializeField] private float velocity;
 	[SerializeField] private GameObject shotPrefab;
 	[SerializeField] private float ratioShoot;
+	[SerializeField] private SpriteRenderer playerVisual;
 
 	[SerializeField] private GameObject spawnPoint;
 	[SerializeField] private GameObject poolContainer;
@@ -142,8 +143,16 @@ public class Player : MonoBehaviour {
 	private IEnumerator Invencible() {
 		isInvencibleActive = true;
 		
+		playerVisual.color = new Color(
+			playerVisual.color.r,
+			playerVisual.color.g,
+			playerVisual.color.b, 0.3f);
 		yield return new WaitForSeconds(5f);
 
+		playerVisual.color = new Color(
+			playerVisual.color.r,
+			playerVisual.color.g,
+			playerVisual.color.b, 1f);
 		isInvencibleActive = false;
 	}
 	#endregion

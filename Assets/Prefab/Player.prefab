@@ -198,9 +198,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b02c9746cbe80ec4da624f799b438fa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 8
+  velocity: 10
   shotPrefab: {fileID: 8629028845068148302, guid: 1e13786c121f008419ce680552e6f4a2, type: 3}
   ratioShoot: 0.5
+  playerVisual: {fileID: 4494861475318628076}
   spawnPoint: {fileID: 375058953112329930}
   poolContainer: {fileID: 2925481073109139187}
 --- !u!61 &8300437774648756543

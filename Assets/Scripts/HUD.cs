@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class HUD : MonoBehaviour {
@@ -17,11 +18,33 @@ public class HUD : MonoBehaviour {
 	[SerializeField] private List<GameObject> lifeReferences;
     #endregion
 
-	#region static variables
-	private float banPos = 2000f;
+	#region Private variables
+	private SceneChanger sceneChanger;
+	private TransitionScreen transitionScreen;
+	private bool isGameOver = false;
 	#endregion
 
+	#region static variables
+	private float banPos = 2000f;
+    #endregion
+
+    void Awake() {
+		if(TransitionScreen.Instance != null){
+			transitionScreen = TransitionScreen.Instance;
+		}else{
+			transitionScreen = FindAnyObjectByType<TransitionScreen>(FindObjectsInactive.Exclude);
+		}
+
+		if(SceneChanger.Instance != null){
+			sceneChanger = SceneChanger.Instance;
+		}else{
+			sceneChanger = FindAnyObjectByType<SceneChanger>(FindObjectsInactive.Exclude);
+		}
+    }
+
     void Start() {
+		transitionScreen.StartIn();
+
 		GlobalData.OnPlayerHits.AddListener((int life)=>CheckPlayerLife(life));
 		GlobalData.OnNewWave.AddListener(()=>ShowWaveBanner());
 		GlobalData.OnBossStage.AddListener(()=>ShowBossBanner());
@@ -31,10 +54,22 @@ public class HUD : MonoBehaviour {
 
 		LeanTween.moveLocalX(banner, banPos, 0f);
 		LeanTween.moveLocalX(finalBanner, banPos, 0f);
+		transitionScreen.Out(null);
 	}
 
+    void Update() {
+		if(isGameOver){
+			if(Input.GetKeyDown(KeyCode.Space)){
+				transitionScreen.In(()=>{
+					GlobalData.ResetVariables();
+					sceneChanger.LoadSceneAsync("MainGame");
+				});
+			}
+		}
+    }
+
     #region Private methods
-	private void UpdateScore(){
+    private void UpdateScore(){
 		currentScore.text = GlobalData.Score.ToString();
 	}
 
@@ -59,6 +94,8 @@ public class HUD : MonoBehaviour {
 		finalScore.text = "Score: " + GlobalData.Score;
 		LeanTween.moveLocalX(finalBanner, 0f, 0.3f)
 		.setEaseOutSine();
+
+		isGameOver = true;
 	}
 
 	private void MoveBanner(){

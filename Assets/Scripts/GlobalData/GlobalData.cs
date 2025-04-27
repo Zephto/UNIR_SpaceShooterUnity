@@ -3,8 +3,15 @@ using UnityEngine.Events;
 
 public class GlobalData : MonoBehaviour {
 	
+	public static void ResetVariables(){
+		isBossBattle = false;
+		_gameSpeed = 1.0f;
+		_score = 0;
+	}
+
 	#region Game Events
 	public static UnityEvent<float> OnGameSpeedChange = new UnityEvent<float>();
+	private static float _gameSpeed = 1.0f;
 	public static float GameSpeed{
 		get => _gameSpeed;
 		set {
@@ -15,8 +22,6 @@ public class GlobalData : MonoBehaviour {
 			}
 		}
 	}
-
-	private static float _gameSpeed = 1.0f;
 	#endregion
 
 	#region Player Events

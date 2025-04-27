@@ -70,7 +70,7 @@ public class Spawner : MonoBehaviour {
 			// }
 
 			yield return new WaitForSeconds(2f);
-			GlobalData.GameSpeed += 0.05f;
+			GlobalData.GameSpeed += 0.07f;
 			currentEnemies++;
 		}
 	}
