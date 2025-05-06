@@ -6,7 +6,7 @@ using System.Linq;
 
 public class Spawner : MonoBehaviour {
 	#region Public references
-	[SerializeField] private GameObject enemyPrefab;
+	[SerializeField] private List<GameObject> enemyPrefab;
     #endregion
 
 	#region Private references
@@ -26,7 +26,9 @@ public class Spawner : MonoBehaviour {
 	#region Private Methods
 	private void PrepareEnemies(){
 		for(int i=0; i<100; i++){
-			var newEnemy = Instantiate(enemyPrefab, this.gameObject.transform.position, Quaternion.identity, this.transform);
+			GameObject prefabToUse = i>50? enemyPrefab[0] : enemyPrefab[1];
+
+			var newEnemy = Instantiate(prefabToUse, this.gameObject.transform.position, Quaternion.identity, this.transform);
 			listOfEnemies.Add(newEnemy.GetComponent<Enemy>());
 			newEnemy.SetActive(false);
 		}

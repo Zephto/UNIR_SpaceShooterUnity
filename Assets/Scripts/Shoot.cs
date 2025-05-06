@@ -6,6 +6,7 @@ public class Shoot : MonoBehaviour {
 	#region public variables
 	[SerializeField] private float velocity;
 	[SerializeField] private Vector3 direction;
+	[SerializeField] private ParticleSystem explosion;
 	#endregion
 
 	#region private variables
@@ -16,7 +17,11 @@ public class Shoot : MonoBehaviour {
 		StartCoroutine(LifeTimeCoroutine());
     }
 
-    void Update() {
+	private void OnDisable() {
+		Instantiate(explosion, this.transform.position, Quaternion.identity, null);
+	}
+
+	void Update() {
         this.transform.Translate(direction * (velocity*GlobalData.GameSpeed) * Time.deltaTime);
     }
 
